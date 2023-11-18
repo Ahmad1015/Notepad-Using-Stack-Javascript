@@ -20,7 +20,36 @@ export default function TextBox() {
         console.log("On Change");
         setText(event.target.value);
     }
+  
+    const handleUndo = ()=>{
+        console.log("Undo was clicked" + text);
+        let temp = text;
+        let stack = [];
+        for (let i = 0; i < temp.length; i++) {
+            stack.push(temp[i]);
+        }
+        setGlobalStack([...globalStack, stack.pop()]);
+        let newText = "";
+        while(stack.length > 0) {
+           newText +=stack.pop();
+        }
+        setText(newText.split('').reverse().join(''));
+    }
+
+    const handleRedo = ()=>{
+        console.log("Redo was clicked" + text);
+        let poppedValue = globalStack.pop();
+        if (poppedValue !== undefined) {
+        let newText = text + poppedValue;
+        setText(newText);
+    }
+        setGlobalStack([...globalStack]);
+    }
+
+
+    const [globalStack, setGlobalStack] = useState([]);
     const [text, setText] = useState("");
+
     return (
     <>
     <h1 className="text-center">Enter Text below</h1>
@@ -32,10 +61,11 @@ export default function TextBox() {
     <button type="button" class="btn btn-success mx-2" onClick={handleupClick}>Convert to Uppercase</button>
     <button type="button" class="btn btn-success mx-2" onClick={handleloClick}>Convert to Lowercase</button>
     <button type="button" class="btn btn-success mx-2" onClick={handleclClick}>Clear</button>
-
-
+    <button type ="button" class="btn btn-success mx-2" onClick={handleUndo}>Undo</button>
+    <button type ="button" class="btn btn-success mx-2" onClick={handleRedo}>Redo</button>
+ 
+    
     </form>
-
     </>
   )
 }
