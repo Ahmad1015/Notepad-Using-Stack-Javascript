@@ -13,7 +13,6 @@ export default function menu() {
       <div className = "Buttons">
       <button type="button" class="btn btn-success me-2">Save</button>
       <button type="button" class="btn btn-primary">History</button>
-
       </div>
     </div>
     </nav>
